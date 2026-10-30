@@ -6,8 +6,8 @@
     <title>Calculator AFM Stocare - Premium Serv Instal</title>
     <style>
         :root {
-            --primary-color: #004b87; /* Albastru profesional */
-            --secondary-color: #00a651; /* Verde energie */
+            --primary-color: #004b87;
+            --secondary-color: #00a651;
             --bg-color: #f4f7f6;
             --card-bg: #ffffff;
             --text-color: #333333;
@@ -162,10 +162,14 @@
         .btn-whatsapp {
             background-color: #25D366;
             margin-top: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            display: block;
             text-decoration: none;
+            color: white;
+            padding: 14px;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 16px;
+            text-align: center;
         }
         
         .error-msg {
@@ -189,11 +193,11 @@
         <div class="section-title">Date de Contact</div>
         <div class="form-group">
             <label>Nume și Prenume *</label>
-            <input type="text" id="numeClient" class="form-control" placeholder="Ion Popescu" required>
+            <input type="text" id="numeClient" class="form-control" placeholder="Ion Popescu">
         </div>
         <div class="form-group">
             <label>Număr de Telefon *</label>
-            <input type="tel" id="telefonClient" class="form-control" placeholder="0712345678" required>
+            <input type="tel" id="telefonClient" class="form-control" placeholder="0712345678">
         </div>
 
         <!-- 1. Sistemul Existent -->
@@ -219,13 +223,13 @@
 
         <div class="form-group">
             <label>Putere invertor instalat</label>
-            <select id="putereInvertor" class="form-control" onchange="verificaAltul()">
+            <select id="putereInvertor" class="form-control" onchange="verificaAltulInv()">
                 <option value="3 kW">3 kW</option>
                 <option value="5 kW">5 kW</option>
                 <option value="10 kW">10 kW</option>
                 <option value="Altul">Altă putere (specifică)</option>
             </select>
-            <input type="number" id="putereManual" class="form-control" placeholder="Ex: 8 (kW)" style="display:none; margin-top:10px;">
+            <input type="text" id="putereManual" class="form-control" placeholder="Ex: 8 kW" style="display:none; margin-top:10px;">
         </div>
 
         <div class="form-group">
@@ -239,7 +243,7 @@
 
         <div class="form-group">
             <label>Putere panouri instalate (kWp)</label>
-            <input type="number" id="puterePanouri" class="form-control" placeholder="Ex: 5">
+            <input type="text" id="puterePanouri" class="form-control" placeholder="Ex: 5">
         </div>
 
         <!-- 2. Locația -->
@@ -257,12 +261,14 @@
         <!-- 3. Nevoia de Stocare -->
         <div class="section-title">3. Baterii (Stocare)</div>
         <div class="form-group">
-            <label>Capacitate baterie dorită</label>
-            <select id="capacitate" class="form-control">
+            <label>Capacitate baterie dorită (kWh)</label>
+            <select id="capacitateSelect" class="form-control" onchange="verificaAltulBat()">
                 <option value="10">10 kWh (Minim AFM)</option>
                 <option value="15">15 kWh (Optim)</option>
                 <option value="20">20 kWh (Punctaj Maxim)</option>
+                <option value="Personalizat">Altă capacitate (introdu manual)</option>
             </select>
+            <input type="number" id="capacitateManual" class="form-control" placeholder="Introdu nr. kWh (ex: 12)" style="display:none; margin-top:10px;">
         </div>
 
         <div class="form-group">
@@ -278,10 +284,10 @@
         <!-- Acord GDPR -->
         <div class="gdpr-group">
             <input type="checkbox" id="gdprCheck">
-            <label for="gdprCheck" style="display:inline; font-weight:normal; font-size:12px;">Sunt de acord ca datele mele de contact să fie prelucrate de Premium Serv Instal în vederea întocmirii ofertei tehnico-comerciale.</label>
+            <label for="gdprCheck" style="display:inline; font-weight:normal; font-size:12px;">Sunt de acord ca datele mele de contact să fie prelucrate de Premium Serv Instal în vederea întocmirii ofertei.</label>
         </div>
 
-        <button class="btn" onclick="calculeaza()">Calculează și Trimite pe WhatsApp</button>
+        <button class="btn" onclick="calculeaza()">Calculează Estimarea</button>
         <div id="error-msg" class="error-msg">Te rugăm să completezi numele, telefonul și să bifezi acordul GDPR!</div>
 
         <!-- Rezultate -->
@@ -300,19 +306,19 @@
             </div>
             
             <p style="font-size: 11px; color: #888; text-align: center; margin-top: 15px;">
-                *Valorile sunt strict estimative, conform standardului AFM de 1.500 lei/kWh.
+                *Valori estimative conform standardului AFM de 1.500 lei/kWh.
             </p>
 
-            <a href="#" id="btn-wa" class="btn btn-whatsapp" target="_blank">
-                Trimite datele pe WhatsApp
+            <a href="#" id="btn-wa" class="btn-whatsapp" target="_blank">
+                Trimite datele pe WhatsApp 📲
             </a>
         </div>
     </div>
 
     <script>
-        function verificaAltul() {
-            const selector = document.getElementById('putereInvertor').value;
-            const inputManual = document.getElementById('putereManual');
+        function verificaAltulInv() {
+            var selector = document.getElementById('putereInvertor').value;
+            var inputManual = document.getElementById('putereManual');
             if (selector === 'Altul') {
                 inputManual.style.display = 'block';
             } else {
@@ -320,63 +326,78 @@
             }
         }
 
-        function calculeaza() {
-            const nume = document.getElementById('numeClient').value.trim();
-            const telefon = document.getElementById('telefonClient').value.trim();
-            const gdpr = document.getElementById('gdprCheck').checked;
-            const errorMsg = document.getElementById('error-msg');
+        function verificaAltulBat() {
+            var selector = document.getElementById('capacitateSelect').value;
+            var inputManual = document.getElementById('capacitateManual');
+            if (selector === 'Personalizat') {
+                inputManual.style.display = 'block';
+            } else {
+                inputManual.style.display = 'none';
+            }
+        }
 
-            if (!nume || !telefon || !gdpr) {
+        function calculeaza() {
+            var nume = document.getElementById('numeClient').value.trim();
+            var telefon = document.getElementById('telefonClient').value.trim();
+            var gdpr = document.getElementById('gdprCheck').checked;
+            var errorMsg = document.getElementById('error-msg');
+
+            if (nume === "" || telefon === "" || !gdpr) {
                 errorMsg.style.display = 'block';
                 return;
             }
             errorMsg.style.display = 'none';
 
-            // Preluare valori
-            const capacitate = parseFloat(document.getElementById('capacitate').value);
-            const invertor = document.getElementById('invertor').value;
-            const bransament = document.getElementById('bransament').value;
+            var capacitateVal = document.getElementById('capacitateSelect').value;
+            var capacitate = 0;
+            if (capacitateVal === 'Personalizat') {
+                capacitate = parseFloat(document.getElementById('capacitateManual').value);
+                if (isNaN(capacitate) || capacitate <= 0) {
+                    alert("Te rugăm să introduci o valoare validă pentru capacitatea bateriei.");
+                    return;
+                }
+            } else {
+                capacitate = parseFloat(capacitateVal);
+            }
+
+            var invertor = document.getElementById('invertor').value;
+            var bransament = document.getElementById('bransament').value;
             
-            let putereInv = document.getElementById('putereInvertor').value;
-            if(putereInv === 'Altul') {
-                putereInv = document.getElementById('putereManual').value + " kW";
+            var putereInv = document.getElementById('putereInvertor').value;
+            if (putereInv === 'Altul') {
+                putereInv = document.getElementById('putereManual').value;
             }
             
-            const hibrid = document.getElementById('hibrid').value;
-            const panouri = document.getElementById('puterePanouri').value || "Nespecificat";
-            const judet = document.getElementById('judet').value;
-            const backup = document.getElementById('backup').value;
+            var hibrid = document.getElementById('hibrid').value;
+            var panouri = document.getElementById('puterePanouri').value || "Nespecificat";
+            var judet = document.getElementById('judet').value;
+            var backup = document.getElementById('backup').value;
 
-            // Logica matematică AFM
-            const pretTotal = capacitate * 1500;
-            const subventieAfm = Math.min(15000, pretTotal * 0.75);
-            const contributieClient = pretTotal - subventieAfm;
+            var pretTotal = capacitate * 1500;
+            var subventieAfm = 15000;
+            var calcul75 = pretTotal * 0.75;
+            if (calcul75 < subventieAfm) {
+                subventieAfm = calcul75;
+            }
+            var contributieClient = pretTotal - subventieAfm;
 
-            // Afișare în interfață
-            document.getElementById('rez-total').innerText = formataSuma(pretTotal);
-            document.getElementById('rez-afm').innerText = formataSuma(subventieAfm);
-            document.getElementById('rez-client').innerText = formataSuma(contributieClient);
+            document.getElementById('rez-total').innerText = pretTotal.toLocaleString('ro-RO') + ' Lei';
+            document.getElementById('rez-afm').innerText = subventieAfm.toLocaleString('ro-RO') + ' Lei';
+            document.getElementById('rez-client').innerText = contributieClient.toLocaleString('ro-RO') + ' Lei';
 
-            // Generare text pentru WhatsApp
-            const numarFirma = "40747193002"; // Numărul tău
-            let mesaj = `SolicitareNouă AFM Stocare (prin Calculator Online):%0A%0A`;
-            mesaj += `👤 *Client:* ${nume}%0A`;
-            mesaj += `📞 *Telefon:* ${telefon}%0A`;
-            mesaj += `📍 *Județ:* ${judet}%0A`;
-            mesaj += `⚡ *Invertor:* ${invertor} (${putereInv}, ${bransament}, Hibrid: ${hibrid})%0A`;
-            mesaj += `☀️ *Panouri:* ${panouri} kWp%0A`;
-            mesaj += `🔋 *Baterie dorită:* ${capacitate} kWh%0A`;
-            mesaj += `🔌 *Vrea Back-up:* ${backup} (Neeligibil AFM)%0A%0A`;
-            mesaj += `_Accept GDPR confirmat de client._`;
+            var numarFirma = "40747193002";
+            var mesaj = "Solicitare Noua AFM Stocare:%0A%0A" +
+                        "Client: " + encodeURIComponent(nume) + "%0A" +
+                        "Telefon: " + encodeURIComponent(telefon) + "%0A" +
+                        "Judet: " + encodeURIComponent(judet) + "%0A" +
+                        "Invertor: " + encodeURIComponent(invertor) + " (" + encodeURIComponent(putereInv) + ", " + encodeURIComponent(bransament) + ", Hibrid: " + encodeURIComponent(hibrid) + ")%0A" +
+                        "Panouri: " + encodeURIComponent(panouri) + " kWp%0A" +
+                        "Baterie: " + capacitate + " kWh%0A" +
+                        "Back-up: " + encodeURIComponent(backup) + " (Neeligibil)%0A%0A" +
+                        "Accept GDPR confirmat.";
 
-            document.getElementById('btn-wa').href = `https://wa.me/${numarFirma}?text=${mesaj}`;
-
-            // Afișează secțiunea de rezultate
+            document.getElementById('btn-wa').href = "https://wa.me/" + numarFirma + "?text=" + mesaj;
             document.getElementById('results-container').style.display = 'block';
-        }
-
-        function formataSuma(numar) {
-            return new Intl.NumberFormat('ro-RO').format(numar) + ' Lei';
         }
     </script>
 </body>
