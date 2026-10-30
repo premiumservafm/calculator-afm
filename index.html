@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator AFM Stocare - Premium Serv Instal</title>
+    <style>
+        :root {
+            --primary-color: #004b87; /* Albastru profesional */
+            --secondary-color: #00a651; /* Verde energie */
+            --bg-color: #f4f7f6;
+            --card-bg: #ffffff;
+            --text-color: #333333;
+            --border-radius: 12px;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .calculator-card {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 400px;
+            padding: 30px 20px;
+            box-sizing: border-box;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .header h1 {
+            color: var(--primary-color);
+            font-size: 22px;
+            margin: 0 0 10px 0;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 14px;
+            margin: 0;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            box-sizing: border-box;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 14px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #003666;
+        }
+
+        .results {
+            display: none;
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 2px dashed #ddd;
+        }
+
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            font-size: 15px;
+        }
+
+        .result-item.total {
+            font-weight: bold;
+            color: #555;
+        }
+
+        .result-item.afm {
+            font-weight: bold;
+            color: var(--secondary-color);
+        }
+
+        .result-item.client {
+            font-weight: 900;
+            font-size: 18px;
+            color: var(--primary-color);
+            padding: 10px 0;
+            border-top: 1px solid #eee;
+            border-bottom: 1px solid #eee;
+        }
+
+        .btn-whatsapp {
+            background-color: #25D366;
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-decoration: none;
+        }
+
+        .btn-whatsapp:hover {
+            background-color: #128C7E;
+        }
+
+        .warning {
+            color: #d9534f;
+            font-size: 12px;
+            margin-top: 5px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="calculator-card">
+        <div class="header">
+            <h1>PREMIUM SERV INSTAL</h1>
+            <p>Calculator Eligibilitate AFM Stocare 2026</p>
+        </div>
+
+        <div class="form-group">
+            <label for="invertor">Ce model de invertor hibrid ai?</label>
+            <select id="invertor" class="form-control">
+                <option value="Huawei">Huawei</option>
+                <option value="Fronius">Fronius</option>
+                <option value="Deye">Deye</option>
+                <option value="Altul">Altul / Nu știu</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="capacitate">Capacitate stocare dorită (kWh)</label>
+            <input type="number" id="capacitate" class="form-control" value="10" min="10" max="30">
+            <div id="warning-msg" class="warning">Programul AFM impune un minim de 10 kWh.</div>
+        </div>
+
+        <button class="btn" onclick="calculeaza()">Calculează Costurile</button>
+
+        <div id="results-container" class="results">
+            <div class="result-item total">
+                <span>Cost total estimat (standard AFM):</span>
+                <span id="rez-total">0 Lei</span>
+            </div>
+            <div class="result-item afm">
+                <span>Subvenție AFM (Max 15.000 Lei):</span>
+                <span id="rez-afm">0 Lei</span>
+            </div>
+            <div class="result-item client">
+                <span>Contribuția Ta:</span>
+                <span id="rez-client">0 Lei</span>
+            </div>
+            
+            <p style="font-size: 11px; color: #888; text-align: center; margin-top: 15px;">
+                *Valorile sunt strict estimative, conform standardului de cost de 1.500 lei/kWh. Oferta tehnică finală va depinde de echipamentele alese.
+            </p>
+
+            <!-- Buton Trimite pe WhatsApp. Înlocuiește numărul cu cel corect dacă diferă -->
+            <a href="#" id="btn-wa" class="btn btn-whatsapp" target="_blank">
+                Trimite-ne solicitarea pe WhatsApp
+            </a>
+        </div>
+    </div>
+
+    <script>
+        function calculeaza() {
+            const capacitate = parseFloat(document.getElementById('capacitate').value);
+            const invertor = document.getElementById('invertor').value;
+            const warningMsg = document.getElementById('warning-msg');
+            const resultsContainer = document.getElementById('results-container');
+
+            if (isNaN(capacitate) || capacitate < 10) {
+                warningMsg.style.display = 'block';
+                resultsContainer.style.display = 'none';
+                return;
+            }
+
+            warningMsg.style.display = 'none';
+
+            // Logica matematică AFM
+            const pretTotal = capacitate * 1500;
+            const subventieAfm = Math.min(15000, pretTotal * 0.75);
+            const contributieClient = pretTotal - subventieAfm;
+
+            // Afisare in interfata
+            document.getElementById('rez-total').innerText = formataSuma(pretTotal);
+            document.getElementById('rez-afm').innerText = formataSuma(subventieAfm);
+            document.getElementById('rez-client').innerText = formataSuma(contributieClient);
+
+            // Configurare buton WhatsApp (Folosesc numărul tău: +40747193002)
+            const telefon = "40747193002";
+            const mesaj = `Salutare! Am folosit calculatorul Premium Serv Instal pentru programul AFM Stocare.%0A%0A*Invertor:* ${invertor}%0A*Capacitate baterie:* ${capacitate} kWh%0A%0AMă interesează instalarea. Putem discuta detaliile?`;
+            const waUrl = `https://wa.me/${telefon}?text=${mesaj}`;
+            document.getElementById('btn-wa').href = waUrl;
+
+            // Arata rezultatele
+            resultsContainer.style.display = 'block';
+        }
+
+        function formataSuma(numar) {
+            return new Intl.NumberFormat('ro-RO').format(numar) + ' Lei';
+        }
+    </script>
+</body>
+</html>
