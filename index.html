@@ -3,171 +3,375 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculator & Formular - Cosmo Group</title>
+    <title>Calculator AFM Stocare - Cosmo Group</title>
     <style>
         :root {
-            --primary-color: #0b2545;
-            --secondary-color: #134074;
-            --accent-color: #8da9c4;
-            --light-bg: #eeeff2;
-            --white: #ffffff;
-            --text-color: #1d2d44;
+            --primary-color: #004b87;
+            --secondary-color: #00a651;
+            --bg-color: #f4f7f6;
+            --card-bg: #ffffff;
+            --text-color: #333333;
+            --border-radius: 12px;
         }
+
         body {
-            font-family: Arial, sans-serif;
-            background-color: var(--light-bg);
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
             color: var(--text-color);
             margin: 0;
-            padding: 20px;
+            padding: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
         }
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            background: var(--white);
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-        }
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-            border-bottom: 2px solid var(--light-bg);
-            padding-bottom: 20px;
-        }
-        .logo-area {
-            font-size: 28px;
-            font-weight: bold;
-            color: var(--primary-color);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        .logo-area span {
-            color: var(--secondary-color);
-        }
-        h2 {
-            color: var(--primary-color);
-            margin-top: 10px;
-            font-size: 20px;
-        }
-        .form-group {
-            margin-bottom: 20px;
-        }
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: bold;
-            color: var(--secondary-color);
-        }
-        input, select, textarea {
+
+        .calculator-card {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.1);
             width: 100%;
-            padding: 12px;
-            border: 1px solid #cbd5e1;
-            border-radius: 6px;
-            font-size: 16px;
+            max-width: 450px;
+            padding: 25px 20px;
             box-sizing: border-box;
         }
-        input:focus, select:focus, textarea:focus {
-            outline: none;
-            border-color: var(--secondary-color);
-            box-shadow: 0 0 0 3px rgba(19, 64, 116, 0.15);
+
+        .header {
+            text-align: center;
+            margin-bottom: 25px;
+            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 15px;
         }
-        .btn {
-            background-color: var(--primary-color);
-            color: var(--white);
-            padding: 14px 20px;
-            border: none;
-            border-radius: 6px;
-            font-size: 16px;
-            cursor: pointer;
-            width: 100%;
-            font-weight: bold;
-            transition: background-color 0.2s;
-        }
-        .btn:hover {
-            background-color: var(--secondary-color);
-        }
-        .result-box {
-            margin-top: 25px;
-            padding: 20px;
-            background-color: #f8fafc;
-            border-left: 5px solid var(--primary-color);
-            border-radius: 0 6px 6px 0;
-            display: none;
-        }
-        .result-box h3 {
-            margin-top: 0;
+
+        .header h1 {
             color: var(--primary-color);
+            font-size: 22px;
+            margin: 0 0 5px 0;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 13px;
+            margin: 0;
+        }
+        
+        .section-title {
+            font-size: 16px;
+            color: var(--primary-color);
+            margin-top: 20px;
+            margin-bottom: 15px;
+            border-left: 4px solid var(--secondary-color);
+            padding-left: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 6px;
+            font-size: 13px;
+            color: #444;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 15px;
+            box-sizing: border-box;
+            background-color: #fafafa;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            background-color: #fff;
+        }
+
+        .note-info {
+            font-size: 11px;
+            color: #d9534f;
+            margin-top: 4px;
+            line-height: 1.4;
+        }
+
+        .gdpr-group {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-top: 20px;
+            font-size: 12px;
+            color: #555;
+            line-height: 1.4;
+        }
+
+        .gdpr-group input {
+            margin-top: 2px;
+            transform: scale(1.2);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 14px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+
+        .btn:hover {
+            background-color: #003666;
+        }
+
+        .results {
+            display: none;
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 2px dashed #ddd;
+        }
+
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        .result-item.afm {
+            font-weight: bold;
+            color: var(--secondary-color);
+        }
+
+        .result-item.client {
+            font-weight: 900;
+            font-size: 18px;
+            color: var(--primary-color);
+            padding: 10px 0;
+            border-top: 1px solid #eee;
+            border-bottom: 1px solid #eee;
+        }
+
+        .btn-whatsapp {
+            background-color: #25D366;
+            margin-top: 20px;
+            display: block;
+            text-decoration: none;
+            color: white;
+            padding: 14px;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 16px;
+            text-align: center;
+        }
+        
+        .error-msg {
+            color: #d9534f;
+            font-size: 12px;
+            text-align: center;
+            margin-top: 10px;
+            display: none;
         }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <div class="header">
-        <div class="logo-area">Cosmo <span>Group</span></div>
-        <h2>Calculator & Centralizator Tehnic</h2>
-    </div>
-
-    <form id="calcForm">
-        <div class="form-group">
-            <label for="numeClient">Nume și Prenume / Beneficiar:</label>
-            <input type="text" id="numeClient" placeholder="Introduceți numele complet" required>
+    <div class="calculator-card">
+        <div class="header">
+            <h1>COSMO GROUP</h1>
+            <p>Premium Serv Instal &bull; Calculator AFM Stocare</p>
         </div>
 
+        <!-- Date de Contact -->
+        <div class="section-title">Date de Contact</div>
         <div class="form-group">
-            <label for="capacitateSistem">Capacitate Sistem / Putere Instalată (kW):</label>
-            <input type="number" id="capacitateSistem" step="0.1" placeholder="Ex: 5.5" required>
+            <label>Nume și Prenume *</label>
+            <input type="text" id="numeClient" class="form-control" placeholder="Ion Popescu">
+        </div>
+        <div class="form-group">
+            <label>Număr de Telefon *</label>
+            <input type="tel" id="telefonClient" class="form-control" placeholder="0712345678">
         </div>
 
+        <!-- 1. Sistemul Existent -->
+        <div class="section-title">1. Date Tehnice Sistem</div>
+        
         <div class="form-group">
-            <label for="tipEchipament">Tip Invertor / Echipament Principal:</label>
-            <select id="tipEchipament">
-                <option value="Huawei">Huawei (Tricofazat / Monofazat)</option>
-                <option value="Loxone">Loxone Smart Integration</option>
-                <option value="Standard">Standard / Altele</option>
+            <label>Marca invertorului</label>
+            <select id="invertor" class="form-control">
+                <option value="Huawei">Huawei</option>
+                <option value="Sungrow">Sungrow</option>
+                <option value="Deye">Deye</option>
+                <option value="Altul">Altul / Nu știu</option>
             </select>
         </div>
 
         <div class="form-group">
-            <label for="observatii">Observații / Detalii amplasament:</label>
-            <textarea id="observatii" rows="3" placeholder="Mențiuni legate de montaj, acoperiș sau locație"></textarea>
+            <label>Tip branșament</label>
+            <select id="bransament" class="form-control">
+                <option value="Monofazat (220V)">Monofazat (220V)</option>
+                <option value="Trifazat (380V)">Trifazat (380V)</option>
+            </select>
         </div>
 
-        <button type="button" class="btn" onclick="calculeazaDatele()">Calculează și Generează Fișa</button>
-    </form>
+        <div class="form-group">
+            <label>Putere invertor</label>
+            <select id="putereInvertor" class="form-control" onchange="verificaAltulInv()">
+                <option value="3 kW">3 kW</option>
+                <option value="5 kW">5 kW</option>
+                <option value="10 kW">10 kW</option>
+                <option value="Altul">Altă putere</option>
+            </select>
+            <input type="text" id="putereManual" class="form-control" placeholder="Specifică puterea (ex: 8 kW)" style="display:none; margin-top:10px;">
+        </div>
 
-    <div id="rezultat" class="result-box">
-        <h3>Date Centralizate:</h3>
-        <p id="outputRezultat"></p>
+        <div class="form-group">
+            <label>Invertorul este HIBRID?</label>
+            <select id="hibrid" class="form-control">
+                <option value="Da">Da</option>
+                <option value="Nu">Nu</option>
+                <option value="Nu știu">Nu știu</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Putere panouri instalate (kWp)</label>
+            <input type="text" id="puterePanouri" class="form-control" placeholder="Ex: 5">
+        </div>
+
+        <!-- 2. Locația -->
+        <div class="section-title">2. Locație</div>
+        <div class="form-group">
+            <label>Județul</label>
+            <select id="judet" class="form-control">
+                <option value="Arad">Arad</option>
+                <option value="Timiș">Timiș</option>
+                <option value="Bihor">Bihor</option>
+                <option value="Altul">Alt județ</option>
+            </select>
+        </div>
+
+        <!-- 3. Nevoia de Stocare -->
+        <div class="section-title">3. Baterii (Stocare)</div>
+        <div class="form-group">
+            <label>Capacitate baterie dorită (kWh)</label>
+            <select id="capacitateSelect" class="form-control" onchange="verificaAltulBat()">
+                <option value="10">10 kWh (Minim AFM)</option>
+                <option value="15">15 kWh (Optim)</option>
+                <option value="20">20 kWh (Punctaj Maxim)</option>
+                <option value="Personalizat">Altă capacitate (personalizat)</option>
+            </select>
+            <input type="number" id="capacitateManual" class="form-control" placeholder="Introdu nr. kWh (ex: 12)" style="display:none; margin-top:10px;">
+        </div>
+
+        <div class="form-group">
+            <label>Dorești și funcție de Back-up?</label>
+            <select id="backup" class="form-control">
+                <option value="Da">Da</option>
+                <option value="Nu">Nu</option>
+            </select>
+            <div class="note-info">⚠️ Notă: Echipamentele de Back-up (ex. Backup Box) NU sunt eligibile prin programul AFM (se achită separat).</div>
+        </div>
+
+        <!-- Acord GDPR -->
+        <div class="gdpr-group">
+            <input type="checkbox" id="gdprCheck">
+            <label for="gdprCheck" style="display:inline; font-weight:normal; font-size:12px;">Sunt de acord ca datele mele să fie prelucrate de Cosmo Group / Premium Serv Instal pentru ofertare.</label>
+        </div>
+
+        <button class="btn" onclick="calculeaza()">Calculează Estimarea</button>
+        <div id="error-msg" class="error-msg">Completează Numele, Telefonul și bifează acordul GDPR!</div>
+
+        <!-- Rezultate -->
+        <div id="results-container" class="results">
+            <div class="result-item">
+                <span>Cost standard estimat AFM:</span>
+                <span id="rez-total">0 Lei</span>
+            </div>
+            <div class="result-item afm">
+                <span>Finanțare AFM (Max 15k Lei):</span>
+                <span id="rez-afm">0 Lei</span>
+            </div>
+            <div class="result-item client">
+                <span>Contribuția Ta:</span>
+                <span id="rez-client">0 Lei</span>
+            </div>
+            
+            <a href="#" id="btn-wa" class="btn-whatsapp" target="_blank">
+                Trimite pe WhatsApp 📲
+            </a>
+        </div>
     </div>
-</div>
 
-<script>
-    function calculeazaDatele() {
-        const nume = document.getElementById('numeClient').value;
-        const putere = document.getElementById('capacitateSistem').value;
-        const echipament = document.getElementById('tipEchipament').value;
-        const observatii = document.getElementById('observatii').value;
-
-        if (!nume || !putere) {
-            alert('Te rog să completezi cel puțin numele și capacitatea sistemului!');
-            return;
+    <script>
+        function verificaAltulInv() {
+            var sel = document.getElementById('putereInvertor').value;
+            document.getElementById('putereManual').style.display = (sel === 'Altul') ? 'block' : 'none';
         }
 
-        const estimarePanouri = Math.round(putere * 2.5);
-
-        let htmlRezultat = `<strong>Beneficiar:</strong> ${nume}<br>`;
-        htmlRezultat += `<strong>Putere instalată:</strong> ${putere} kW (Aprox. ${estimarePanouri} panouri fotovoltaice)<br>`;
-        htmlRezultat += `<strong>Echipament selectat:</strong> ${echipament}<br>`;
-        if(observatii) {
-            htmlRezultat += `<strong>Observații:</strong> ${observatii}<br>`;
+        function verificaAltulBat() {
+            var sel = document.getElementById('capacitateSelect').value;
+            document.getElementById('capacitateManual').style.display = (sel === 'Personalizat') ? 'block' : 'none';
         }
-        htmlRezultat += `<br><span style="color: #134074; font-weight: bold;">✔ Date înregistrate cu succes sub sigla Cosmo Group.</span>`;
 
-        document.getElementById('outputRezultat').innerHTML = htmlRezultat;
-        document.getElementById('rezultat').style.display = 'block';
-    }
-</script>
+        function calculeaza() {
+            var nume = document.getElementById('numeClient').value.trim();
+            var tel = document.getElementById('telefonClient').value.trim();
+            var gdpr = document.getElementById('gdprCheck').checked;
+            var err = document.getElementById('error-msg');
 
+            if (nume === "" || tel === "" || !gdpr) {
+                err.style.display = 'block';
+                return;
+            }
+            err.style.display = 'none';
+
+            var capVal = document.getElementById('capacitateSelect').value;
+            var capacitate = (capVal === 'Personalizat') ? parseFloat(document.getElementById('capacitateManual').value) : parseFloat(capVal);
+
+            if (isNaN(capacitate) || capacitate <= 0) {
+                alert("Te rugăm să introduci o valoare validă pentru capacitatea bateriei.");
+                return;
+            }
+
+            var inv = document.getElementById('invertor').value;
+            var bran = document.getElementById('bransament').value;
+            var putere = (document.getElementById('putereInvertor').value === 'Altul') ? document.getElementById('putereManual').value : document.getElementById('putereInvertor').value;
+            var hib = document.getElementById('hibrid').value;
+            var pan = document.getElementById('puterePanouri').value || "Nespecificat";
+            var jud = document.getElementById('judet').value;
+            var back = document.getElementById('backup').value;
+
+            var pretTotal = capacitate * 1500;
+            var subventie = Math.min(15000, pretTotal * 0.75);
+            var contrib = pretTotal - subventie;
+
+            document.getElementById('rez-total').innerText = pretTotal.toLocaleString('ro-RO') + ' Lei';
+            document.getElementById('rez-afm').innerText = subventie.toLocaleString('ro-RO') + ' Lei';
+            document.getElementById('rez-client').innerText = contrib.toLocaleString('ro-RO') + ' Lei';
+
+            var numarDestinatar = "40747193002";
+            
+            var textMesaj = "Solicitare Noua AFM Stocare (Cosmo Group):%0A%0A" +
+                            "Client: " + encodeURIComponent(nume) + "%0A" +
+                            "Telefon: " + encodeURIComponent(tel) + "%0A" +
+                            "Judet: " + encodeURIComponent(jud) + "%0A" +
+                            "Invertor: " + encodeURIComponent(inv) + " (" + encodeURIComponent(putere) + ", " + encodeURIComponent(bran) + ", Hibrid: " + encodeURIComponent(hib) + ")%0A" +
+                            "Panouri: " + encodeURIComponent(pan) + " kWp%0A" +
+                            "Baterie: " + capacitate + " kWh%0A" +
+                            "Back-up: " + encodeURIComponent(back) + "%0A%0A" +
+                            "GDPR acceptat.";
+
+            document.getElementById('btn-wa').href = "https://wa.me/" + numarDestinatar + "?text=" + textMesaj;
+            document.getElementById('results-container').style.display = 'block';
+        }
+    </script>
 </body>
 </html>
