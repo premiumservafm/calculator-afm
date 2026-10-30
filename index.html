@@ -211,7 +211,7 @@
                 <option value="Sungrow">Sungrow</option>
                 <option value="Altul">Altul / Nu știu</option>
             </select>
-            <input type="text" id=" marcaManual" class="form-control" placeholder="Specifică marca invertorului" style="display:none; margin-top:10px;">
+            <input type="text" id="marcaManual" class="form-control" placeholder="Specifică marca invertorului" style="display:none; margin-top:10px;">
         </div>
 
         <div class="form-group">
@@ -288,7 +288,7 @@
         </div>
 
         <button class="btn" onclick="calculeaza()">Calculează Estimarea</button>
-        <div id="error-msg" class="error-msg">Completează Numele, Telefonul și bifează acordul GDPR!</div>
+        <div id="error-msg" class="error-msg">Te rugăm să completezi Numele, Telefonul și să bifezi acordul GDPR!</div>
 
         <!-- Rezultate -->
         <div id="results-container" class="results">
@@ -314,7 +314,6 @@
     <script>
         function verificaAltulMarca() {
             var sel = document.getElementById('invertor').value;
-            // Ne asigurăm că elementul există în DOM
             var inputM = document.getElementById('marcaManual');
             if(inputM) {
                 inputM.style.display = (sel === 'Altul') ? 'block' : 'none';
@@ -323,12 +322,18 @@
 
         function verificaAltulInv() {
             var sel = document.getElementById('putereInvertor').value;
-            document.getElementById('putereManual').style.display = (sel === 'Altul') ? 'block' : 'none';
+            var inputI = document.getElementById('putereManual');
+            if(inputI) {
+                inputI.style.display = (sel === 'Altul') ? 'block' : 'none';
+            }
         }
 
         function verificaAltulBat() {
             var sel = document.getElementById('capacitateSelect').value;
-            document.getElementById('capacitateManual').style.display = (sel === 'Personalizat') ? 'block' : 'none';
+            var inputB = document.getElementById('capacitateManual');
+            if(inputB) {
+                inputB.style.display = (sel === 'Personalizat') ? 'block' : 'none';
+            }
         }
 
         function calculeaza() {
