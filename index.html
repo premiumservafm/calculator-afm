@@ -35,7 +35,7 @@
             padding-bottom: 20px;
         }
         .logo-area {
-            font-size: 26px;
+            font-size: 28px;
             font-weight: bold;
             color: var(--primary-color);
             text-transform: uppercase;
@@ -47,6 +47,7 @@
         h2 {
             color: var(--primary-color);
             margin-top: 10px;
+            font-size: 20px;
         }
         .form-group {
             margin-bottom: 20px;
@@ -65,7 +66,7 @@
             font-size: 16px;
             box-sizing: border-box;
         }
-        input:focus, select:focus {
+        input:focus, select:focus, textarea:focus {
             outline: none;
             border-color: var(--secondary-color);
             box-shadow: 0 0 0 3px rgba(19, 64, 116, 0.15);
@@ -73,7 +74,7 @@
         .btn {
             background-color: var(--primary-color);
             color: var(--white);
-            padding: 12px 20px;
+            padding: 14px 20px;
             border: none;
             border-radius: 6px;
             font-size: 16px;
@@ -104,7 +105,7 @@
 <div class="container">
     <div class="header">
         <div class="logo-area">Cosmo <span>Group</span></div>
-        <h2>Calculator & Formular Tehnic</h2>
+        <h2>Calculator & Centralizator Tehnic</h2>
     </div>
 
     <form id="calcForm">
@@ -136,7 +137,7 @@
     </form>
 
     <div id="rezultat" class="result-box">
-        <h3>Centralizator Date:</h3>
+        <h3>Date Centralizate:</h3>
         <p id="outputRezultat"></p>
     </div>
 </div>
@@ -153,8 +154,7 @@
             return;
         }
 
-        // Estimare orientativă sau procesare date
-        const estimarePanouri = Math.round(putere * 2.5); // ex: ~2.5 panouri per kW
+        const estimarePanouri = Math.round(putere * 2.5);
 
         let htmlRezultat = `<strong>Beneficiar:</strong> ${nume}<br>`;
         htmlRezultat += `<strong>Putere instalată:</strong> ${putere} kW (Aprox. ${estimarePanouri} panouri fotovoltaice)<br>`;
@@ -162,7 +162,7 @@
         if(observatii) {
             htmlRezultat += `<strong>Observații:</strong> ${observatii}<br>`;
         }
-        htmlRezultat += `<br><span style="color: #134074; font-weight: bold;">✔ Datele au fost procesate cu succes sub sigla Cosmo Group.</span>`;
+        htmlRezultat += `<br><span style="color: #134074; font-weight: bold;">✔ Date înregistrate cu succes sub sigla Cosmo Group.</span>`;
 
         document.getElementById('outputRezultat').innerHTML = htmlRezultat;
         document.getElementById('rezultat').style.display = 'block';
