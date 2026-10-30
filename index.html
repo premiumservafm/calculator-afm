@@ -262,11 +262,13 @@
         <div class="section-title">3. Baterii (Stocare)</div>
         <div class="form-group">
             <label>Capacitate baterie dorită (kWh)</label>
-            <select id="capacitateSelect" class="form-control">
+            <select id="capacitateSelect" class="form-control" onchange="verificaAltulBat()">
                 <option value="10">10 kWh</option>
                 <option value="15">15 kWh</option>
                 <option value="20">20 kWh</option>
+                <option value="Personalizat">Altă capacitate (personalizat)</option>
             </select>
+            <input type="number" id="capacitateManual" class="form-control" placeholder="Introdu nr. kWh (ex: 12)" style="display:none; margin-top:10px;" min="1">
         </div>
 
         <div class="form-group">
@@ -314,10 +316,15 @@
             document.getElementById('putereManual').style.display = (sel === 'Altul') ? 'block' : 'none';
         }
 
+        function verificaAltulBat() {
+            var sel = document.getElementById('capacitateSelect').value;
+            document.getElementById('capacitateManual').style.display = (sel === 'Personalizat') ? 'block' : 'none';
+        }
+
         function calculeaza() {
             var nume = document.getElementById('numeClient').value.trim();
             var tel = document.getElementById('telefonClient').value.trim();
-            var gdpr = document.getElementById('gdprCheck'].checked;
+            var gdpr = document.getElementById('gdprCheck').checked;
             var err = document.getElementById('error-msg');
 
             if (nume === "" || tel === "" || !gdpr) {
@@ -326,7 +333,18 @@
             }
             err.style.display = 'none';
 
-            var capacitate = parseFloat(document.getElementById('capacitateSelect').value);
+            var capVal = document.getElementById('capacitateSelect').value;
+            var capacitate = 0;
+            if (capVal === 'Personalizat') {
+                capacitate = parseFloat(document.getElementById('capacitateManual').value);
+                if (isNaN(capacitate) || capacitate <= 0) {
+                    alert("Te rugăm să introduci o valoare validă pentru capacitatea bateriei.");
+                    return;
+                }
+            } else {
+                capacitate = parseFloat(capVal);
+            }
+
             var inv = document.getElementById('invertor').value;
             var bran = document.getElementById('bransament').value;
             var putere = (document.getElementById('putereInvertor').value === 'Altul') ? document.getElementById('putereManual').value : document.getElementById('putereInvertor').value;
