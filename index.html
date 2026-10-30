@@ -271,4 +271,116 @@
         <div class="section-title">3. Baterii (Stocare)</div>
         <div class="form-group">
             <label>Capacitate baterie dorită (kWh)</label>
-            <select id="capacitateSelect" class="
+            <select id="capacitateSelect" class="form-control" onchange="verificaAltulBat()">
+                <option value="10">10 kWh (Minim AFM)</option>
+                <option value="15">15 kWh (Optim)</option>
+                <option value="20">20 kWh (Punctaj Maxim)</option>
+                <option value="Personalizat">Altă capacitate (personalizat)</option>
+            </select>
+            <input type="number" id="capacitateManual" class="form-control" placeholder="Introdu nr. kWh (ex: 12)" style="display:none; margin-top:10px;">
+        </div>
+
+        <div class="form-group">
+            <label>Dorești și funcție de Back-up?</label>
+            <select id="backup" class="form-control">
+                <option value="Da">Da</option>
+                <option value="Nu">Nu</option>
+            </select>
+            <div class="note-info">⚠️ Notă: Echipamentele de Back-up (ex. Backup Box) NU sunt eligibile prin programul AFM (se achită separat).</div>
+        </div>
+
+        <!-- Acord GDPR -->
+        <div class="gdpr-group">
+            <input type="checkbox" id="gdprCheck">
+            <label for="gdprCheck" style="display:inline; font-weight:normal; font-size:12px;">Sunt de acord ca datele mele să fie prelucrate de Premium Serv Instal pentru ofertare.</label>
+        </div>
+
+        <button class="btn" onclick="calculeaza()">Calculează Estimarea</button>
+        <div id="error-msg" class="error-msg">Completează Numele, Telefonul și bifează acordul GDPR!</div>
+
+        <!-- Rezultate -->
+        <div id="results-container" class="results">
+            <div class="result-item">
+                <span>Cost standard estimat AFM:</span>
+                <span id="rez-total">0 Lei</span>
+            </div>
+            <div class="result-item afm">
+                <span>Finanțare AFM (Max 15k Lei):</span>
+                <span id="rez-afm">0 Lei</span>
+            </div>
+            <div class="result-item client">
+                <span>Contribuția Ta:</span>
+                <span id="rez-client">0 Lei</span>
+            </div>
+            
+            <a href="#" id="btn-wa" class="btn-whatsapp" target="_blank">
+                Trimite pe WhatsApp 📲
+            </a>
+        </div>
+    </div>
+
+    <script>
+        function verificaAltulInv() {
+            var sel = document.getElementById('putereInvertor').value;
+            document.getElementById('putereManual').style.display = (sel === 'Altul') ? 'block' : 'none';
+        }
+
+        function verificaAltulBat() {
+            var sel = document.getElementById('capacitateSelect').value;
+            document.getElementById('capacitateManual').style.display = (sel === 'Personalizat') ? 'block' : 'none';
+        }
+
+        function calculeaza() {
+            var nume = document.getElementById('numeClient').value.trim();
+            var tel = document.getElementById('telefonClient').value.trim();
+            var gdpr = document.getElementById('gdprCheck').checked;
+            var err = document.getElementById('error-msg');
+
+            if (nume === "" || tel === "" || !gdpr) {
+                err.style.display = 'block';
+                return;
+            }
+            err.style.display = 'none';
+
+            var capVal = document.getElementById('capacitateSelect').value;
+            var capacitate = (capVal === 'Personalizat') ? parseFloat(document.getElementById('capacitateManual').value) : parseFloat(capVal);
+
+            if (isNaN(capacitate) || capacitate <= 0) {
+                alert("Te rugăm să introduci o valoare validă pentru capacitatea bateriei.");
+                return;
+            }
+
+            var inv = document.getElementById('invertor').value;
+            var bran = document.getElementById('bransament').value;
+            var putere = (document.getElementById('putereInvertor').value === 'Altul') ? document.getElementById('putereManual').value : document.getElementById('putereInvertor').value;
+            var hib = document.getElementById('hibrid').value;
+            var pan = document.getElementById('puterePanouri').value || "Nespecificat";
+            var jud = document.getElementById('judet').value;
+            var back = document.getElementById('backup').value;
+
+            var pretTotal = capacitate * 1500;
+            var subventie = Math.min(15000, pretTotal * 0.75);
+            var contrib = pretTotal - subventie;
+
+            document.getElementById('rez-total').innerText = pretTotal.toLocaleString('ro-RO') + ' Lei';
+            document.getElementById('rez-afm').innerText = subventie.toLocaleString('ro-RO') + ' Lei';
+            document.getElementById('rez-client').innerText = contrib.toLocaleString('ro-RO') + ' Lei';
+
+            var numarDestinatar = "40747193002";
+            
+            var textMesaj = "Solicitare Noua AFM Stocare (Cosmo Group):%0A%0A" +
+                            "Client: " + encodeURIComponent(nume) + "%0A" +
+                            "Telefon: " + encodeURIComponent(tel) + "%0A" +
+                            "Judet: " + encodeURIComponent(jud) + "%0A" +
+                            "Invertor: " + encodeURIComponent(inv) + " (" + encodeURIComponent(putere) + ", " + encodeURIComponent(bran) + ", Hibrid: " + encodeURIComponent(hib) + ")%0A" +
+                            "Panouri: " + encodeURIComponent(pan) + " kWp%0A" +
+                            "Baterie: " + capacitate + " kWh%0A" +
+                            "Back-up: " + encodeURIComponent(back) + "%0A%0A" +
+                            "GDPR acceptat.";
+
+            document.getElementById('btn-wa').href = "https://wa.me/" + numarDestinatar + "?text=" + textMesaj;
+            document.getElementById('results-container').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
