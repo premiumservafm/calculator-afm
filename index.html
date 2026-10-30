@@ -363,17 +363,18 @@
 
             var numarDestinatar = "40747193002";
             
-            var textMesaj = "Solicitare Noua AFM Stocare (Cosmo Group):%0A%0A" +
-                            "Client: " + encodeURIComponent(nume) + "%0A" +
-                            "Telefon: " + encodeURIComponent(tel) + "%0A" +
-                            "Judet: " + encodeURIComponent(jud) + "%0A" +
-                            "Invertor: " + encodeURIComponent(inv) + " (" + encodeURIComponent(putere) + ", " + encodeURIComponent(bran) + ", Hibrid: " + encodeURIComponent(hib) + ")%0A" +
-                            "Panouri: " + encodeURIComponent(pan) + " kWp%0A" +
-                            "Baterie: " + capacitate + " kWh%0A" +
-                            "Back-up: " + encodeURIComponent(back) + "%0A%0A" +
+            // Link WhatsApp simplificat și curat care va deschide corect aplicația pe numărul tău
+            var textMesaj = "Solicitare Noua AFM Stocare (Cosmo Group):\n\n" +
+                            "Client: " + nume + "\n" +
+                            "Telefon: " + tel + "\n" +
+                            "Judet: " + jud + "\n" +
+                            "Invertor: " + inv + " (" + putere + ", " + bran + ", Hibrid: " + hib + ")\n" +
+                            "Panouri: " + pan + " kWp\n" +
+                            "Baterie: " + capacitate + " kWh\n" +
+                            "Back-up: " + back + "\n\n" +
                             "GDPR acceptat.";
 
-            document.getElementById('btn-wa').href = "https://wa.me/" + numarDestinatar + "?text=" + textMesaj;
+            document.getElementById('btn-wa').href = "https://wa.me/" + numarDestinatar + "?text=" + encodeURIComponent(textMesaj);
             document.getElementById('results-container').style.display = 'block';
         }
     </script>
