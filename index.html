@@ -170,10 +170,25 @@
             font-weight: bold;
             font-size: 16px;
             text-align: center;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            box-sizing: border-box;
         }
         
         .error-msg {
             color: #d9534f;
+            font-size: 12px;
+            text-align: center;
+            margin-top: 10px;
+            display: none;
+        }
+
+        .success-box {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+            padding: 10px;
+            border-radius: 6px;
             font-size: 12px;
             text-align: center;
             margin-top: 10px;
@@ -304,9 +319,10 @@
                 <span id="rez-client">0 Lei</span>
             </div>
             
-            <a href="#" id="btn-wa" class="btn-whatsapp" target="_blank">
+            <button class="btn-whatsapp" onclick="trimiteWhatsApp()">
                 Trimite pe WhatsApp 📲
-            </a>
+            </button>
+            <div id="success-msg" class="success-box">Datele au fost copiate! Se deschide WhatsApp-ul... Dă doar Paste (Lipește) închat!</div>
         </div>
     </div>
 
@@ -361,9 +377,22 @@
             document.getElementById('rez-afm').innerText = subventie.toLocaleString('ro-RO') + ' Lei';
             document.getElementById('rez-client').innerText = contrib.toLocaleString('ro-RO') + ' Lei';
 
-            var numarDestinatar = "40747193002";
-            
-            // Link WhatsApp simplificat și curat care va deschide corect aplicația pe numărul tău
+            document.getElementById('results-container').style.display = 'block';
+        }
+
+        function trimiteWhatsApp() {
+            var nume = document.getElementById('numeClient').value.trim();
+            var tel = document.getElementById('telefonClient').value.trim();
+            var capVal = document.getElementById('capacitateSelect').value;
+            var capacitate = (capVal === 'Personalizat') ? document.getElementById('capacitateManual').value : capVal;
+            var inv = document.getElementById('invertor').value;
+            var bran = document.getElementById('bransament').value;
+            var putere = (document.getElementById('putereInvertor').value === 'Altul') ? document.getElementById('putereManual').value : document.getElementById('putereInvertor').value;
+            var hib = document.getElementById('hibrid').value;
+            var pan = document.getElementById('puterePanouri').value || "Nespecificat";
+            var jud = document.getElementById('judet').value;
+            var back = document.getElementById('backup').value;
+
             var textMesaj = "Solicitare Noua AFM Stocare (Cosmo Group):\n\n" +
                             "Client: " + nume + "\n" +
                             "Telefon: " + tel + "\n" +
@@ -374,8 +403,18 @@
                             "Back-up: " + back + "\n\n" +
                             "GDPR acceptat.";
 
-            document.getElementById('btn-wa').href = "https://wa.me/" + numarDestinatar + "?text=" + encodeURIComponent(textMesaj);
-            document.getElementById('results-container').style.display = 'block';
+            // Copiază automat textul în memoria telefonului/calculatorului
+            navigator.clipboard.writeText(textMesaj).then(function() {
+                var successBox = document.getElementById('success-msg');
+                successBox.style.display = 'block';
+                
+                setTimeout(function() {
+                    var numarDestinatar = "40747193002";
+                    window.open("https://wa.me/" + numarDestinatar, "_blank");
+                }, 1000);
+            }, function(err) {
+                alert("Nu s-a putut copia textul. Te rugăm să încerci din nou.");
+            });
         }
     </script>
 </body>
