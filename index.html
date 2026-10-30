@@ -207,9 +207,9 @@
             <label>Marca invertorului</label>
             <select id="invertor" class="form-control">
                 <option value="Huawei">Huawei</option>
-                <option value="Sungrow">Sungrow</option>
                 <option value="Deye">Deye</option>
-                <option value="Altul">Altul / Nu știu</option>
+                <option value="Sungrow">Sungrow</option>
+                <option value="Altul / Nu știu">Altul / Nu știu</option>
             </select>
         </div>
 
@@ -227,7 +227,7 @@
                 <option value="3 kW">3 kW</option>
                 <option value="5 kW">5 kW</option>
                 <option value="10 kW">10 kW</option>
-                <option value="Altul">Altă putere</option>
+                <option value="Altul">Altul</option>
             </select>
             <input type="text" id="putereManual" class="form-control" placeholder="Specifică puterea (ex: 8 kW)" style="display:none; margin-top:10px;">
         </div>
@@ -254,7 +254,7 @@
                 <option value="Arad">Arad</option>
                 <option value="Timiș">Timiș</option>
                 <option value="Bihor">Bihor</option>
-                <option value="Altul">Alt județ</option>
+                <option value="Alt județ">Alt județ</option>
             </select>
         </div>
 
@@ -262,13 +262,11 @@
         <div class="section-title">3. Baterii (Stocare)</div>
         <div class="form-group">
             <label>Capacitate baterie dorită (kWh)</label>
-            <select id="capacitateSelect" class="form-control" onchange="verificaAltulBat()">
-                <option value="10">10 kWh (Minim AFM)</option>
-                <option value="15">15 kWh (Optim)</option>
-                <option value="20">20 kWh (Punctaj Maxim)</option>
-                <option value="Personalizat">Altă capacitate (personalizat)</option>
+            <select id="capacitateSelect" class="form-control">
+                <option value="10">10 kWh</option>
+                <option value="15">15 kWh</option>
+                <option value="20">20 kWh</option>
             </select>
-            <input type="number" id="capacitateManual" class="form-control" placeholder="Introdu nr. kWh (ex: 12)" style="display:none; margin-top:10px;">
         </div>
 
         <div class="form-group">
@@ -316,15 +314,10 @@
             document.getElementById('putereManual').style.display = (sel === 'Altul') ? 'block' : 'none';
         }
 
-        function verificaAltulBat() {
-            var sel = document.getElementById('capacitateSelect').value;
-            document.getElementById('capacitateManual').style.display = (sel === 'Personalizat') ? 'block' : 'none';
-        }
-
         function calculeaza() {
             var nume = document.getElementById('numeClient').value.trim();
             var tel = document.getElementById('telefonClient').value.trim();
-            var gdpr = document.getElementById('gdprCheck').checked;
+            var gdpr = document.getElementById('gdprCheck'].checked;
             var err = document.getElementById('error-msg');
 
             if (nume === "" || tel === "" || !gdpr) {
@@ -333,14 +326,7 @@
             }
             err.style.display = 'none';
 
-            var capVal = document.getElementById('capacitateSelect').value;
-            var capacitate = (capVal === 'Personalizat') ? parseFloat(document.getElementById('capacitateManual').value) : parseFloat(capVal);
-
-            if (isNaN(capacitate) || capacitate <= 0) {
-                alert("Te rugăm să introduci o valoare validă pentru capacitatea bateriei.");
-                return;
-            }
-
+            var capacitate = parseFloat(document.getElementById('capacitateSelect').value);
             var inv = document.getElementById('invertor').value;
             var bran = document.getElementById('bransament').value;
             var putere = (document.getElementById('putereInvertor').value === 'Altul') ? document.getElementById('putereManual').value : document.getElementById('putereInvertor').value;
